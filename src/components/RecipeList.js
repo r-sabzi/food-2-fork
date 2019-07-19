@@ -4,6 +4,7 @@ import Recipe from "./Recipe";
 export default class RecipeList extends Component {
   render() {
     const { recipes } = this.props;
+    console.log(recipes);
 
     return (
       <div className="container py-5">
@@ -13,9 +14,15 @@ export default class RecipeList extends Component {
           </div>
         </div>
         <div className="row">
-          {recipes.map(recipe => (
-            <Recipe key={recipe.recipe_id}  a="m" recipe={recipe} />
-          ))}
+          {recipes === null ? (
+            <div className="col-10 mx-auto col-md-6 text-center text-uppercase mb-3">
+              <h1 className="text-slanted text-orange">loading... </h1>
+            </div>
+          ) : (
+            recipes.map(recipe => (
+              <Recipe key={recipe.recipe_id} recipe={recipe} />
+            ))
+          )}
         </div>
       </div>
     );
