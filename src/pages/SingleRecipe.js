@@ -1,16 +1,33 @@
 import React, { Component } from "react";
-import { recipeData } from "../data/tempDetails";
 import { Link } from "react-router-dom";
-
+import { REACT_APP_API_KEY } from "../config";
 export default class SingleRecipe extends Component {
   constructor(props) {
     super(props);
+    const id = this.props.match.params.id;
+
+    this.state = {
+      recipe: {},
+      id,
+      loading: true
+    };
   }
-  state = {
-    recipe: recipeData,
-    id: this.props.match.params.id,
-    loading: false
-  };
+  async componentDidMount() {
+    const url = `https://www.food2fork.com/api/get?key=${REACT_APP_API_KEY}&rId=${
+      this.state.id
+    }`;
+    try {
+      console.log(url);
+      const response = await fetch(url);
+      const responseData = await response.json();
+      this.setState({
+        loading: false,
+        recipe: responseData.recipe
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   render() {
     const {
